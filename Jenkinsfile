@@ -21,9 +21,14 @@ node {
     // }
 
     stage('Push image') {
-        
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
+        steps {
+            script {
+                docker.withContext('desktop-linux') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    app.push("${env.BUILD_NUMBER}")
+                    }
+                }
+            }
         }
     }
     
